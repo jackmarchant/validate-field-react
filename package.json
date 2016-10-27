@@ -1,9 +1,9 @@
 {
   "name": "validate-field-react",
-  "version": "0.0.3",
-  "description": "A validation library built for React",
+  "version": "0.0.4",
+  "description": "A validation component library built for React",
   "repository": "https://github.com/jackmarchant/validate-field-react",
-  "license": "ISC",
+  "license": "MIT",
   "main": "./distribution/index.js",
   "keywords": [
     "react",
