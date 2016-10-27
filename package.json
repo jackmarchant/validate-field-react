@@ -3,7 +3,13 @@
   "version": "0.0.1",
   "description": "A validation library built for React",
   "repository": "https://github.com/jackmarchant/validate-field-react",
-  "license": "MIT",
+  "license": "ISC",
+  "keywords": [
+    "react",
+    "validation",
+    "react component",
+    "react validation"
+  ],
   "dependencies": {
     "react": "^15.3.2",
     "react-dom": "^15.3.2"

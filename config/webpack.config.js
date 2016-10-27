@@ -44,9 +44,6 @@ if (env['process.env'].NODE_ENV !== '"production"') {
 module.exports = {
   // Don't attempt to continue if there are any errors.
   bail: true,
-  // We generate sourcemaps in production. This is slow but gives good results.
-  // You can exclude the *.map files from the build during deployment.
-  devtool: 'source-map',
   // In production, we only want to load the polyfills and the app code.
   entry: [
     require.resolve('./polyfills'),
@@ -137,20 +134,6 @@ module.exports = {
     new webpack.optimize.OccurrenceOrderPlugin(),
     // Try to dedupe duplicated modules, if any:
     new webpack.optimize.DedupePlugin(),
-    // Minify the code.
-    new webpack.optimize.UglifyJsPlugin({
-      compress: {
-        screw_ie8: true, // React doesn't support IE8
-        warnings: false
-      },
-      mangle: {
-        screw_ie8: true
-      },
-      output: {
-        comments: false,
-        screw_ie8: true
-      }
-    })
   ],
   // Some libraries import Node modules but don't use them in the browser.
   // Tell Webpack to provide empty mocks for them so importing them works.
