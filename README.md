@@ -1,8 +1,9 @@
 # validate-field-react
-A validation library for React form components.
+A validation component library for React form components.
 
 It will validate against the following:
 - isNumeric (Boolean)
+- isNotNumeric (Boolean)
 - isRequired (Boolean)
 - minLength (Integer)
 - maxLength (Integer)
@@ -16,10 +17,10 @@ import ValidateField from 'validate-field-react';
 import FeedbackComponent from 'my/optional/FeedbackComponent';
 
 <ValidateField
-  isNumeric={false}
+  isNotNumeric
   isRequired
   minLength={2}
-  component={FeedbackComponent}
+  component={<FeedbackComponent type="error" />}
   message={{
     isNumeric: 'Your name should not be numeric',
     isRequired: 'Please enter your name',
