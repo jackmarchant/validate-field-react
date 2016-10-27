@@ -55,7 +55,8 @@ const propTypes = {
   isNumeric: PropTypes.bool,
   isNotNumeric: PropTypes.bool,
   minLength: PropTypes.number,
-  maxLength: PropTypes.number
+  maxLength: PropTypes.number,
+  component: PropTypes.element
 };
 
 /**
@@ -67,20 +68,31 @@ const defaultProps = {
   isRequired: false,
 };
 
-/**
- * Component
- */
 class ValidateField extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      errorMessage: false,
-      dirty: false
+      errorMessage: false, // message to show the user
+      dirty: false // whether a field has been validated
     };
     this.validate = this.validate.bind(this);
   }
 
+  /**
+   * Render a validation error message
+   *
+   * @param   {string}  message  Validation message from props
+   *
+   * @return  {element}
+   */
   renderErrorMessage(message) {
+    const {component} = this.props;
+    if (component) {
+      return React.cloneElement(component, {
+        message
+      });
+    }
+
     return <p className="error">{message}</p>;
   }
 
@@ -93,9 +105,7 @@ class ValidateField extends Component {
    * @return  {void}
    */
   validate(e) {
-    const {
-      message
-    } = this.props;
+    const {message} = this.props;
     const {value} = e.target;
     const rules = extractValidaitonRules(this.props);
     const validationErrors =
@@ -113,6 +123,7 @@ class ValidateField extends Component {
       });
     }
 
+    // revert back to initial state
     return this.setState({
       errorMessage: false,
       dirty: false
