@@ -37,47 +37,55 @@ class ValidateField extends Component {
   }
 
   validate(e) {
-    if (this.props.isRequired) {
+    const {
+      isRequired,
+      isNumeric,
+      minLength,
+      maxLength,
+      message
+    } = this.props;
+
+    if (isRequired) {
       if (e.target.value.length === 0) {
         return this.setState({
           dirty: true,
-          errorMessage: this.props.message.isRequired
+          errorMessage: message.isRequired
         });
       }
     }
 
-    if (this.props.isNumeric) {
+    if (isNumeric) {
       if (isNaN(e.target.value)) {
         return this.setState({
           dirty: true,
-          errorMessage: this.props.message.isNumeric
+          errorMessage: message.isNumeric
         });
       }
     }
 
-    if (this.props.isNumeric === false) {
+    if (isNumeric === false) {
       if (!isNaN(e.target.value)) {
         return this.setState({
           dirty: true,
-          errorMessage: this.props.message.isNumeric
+          errorMessage: message.isNumeric
         });
       }
     }
 
-    if (this.props.minLength) {
-      if (e.target.value.length < this.props.minLength) {
+    if (minLength) {
+      if (e.target.value.length < minLength) {
         return this.setState({
           dirty: true,
-          errorMessage: this.props.message.minLength
+          errorMessage: message.minLength
         });
       }
     }
 
-    if (this.props.maxLength) {
-      if (e.target.value.length > this.props.maxLength) {
+    if (maxLength) {
+      if (e.target.value.length > maxLength) {
         return this.setState({
           dirty: true,
-          errorMessage: this.props.message.maxLength
+          errorMessage: message.maxLength
         });
       }
     }
@@ -95,10 +103,11 @@ class ValidateField extends Component {
    */
   render() {
     const {errorMessage, dirty} = this.state;
+    const {children} = this.props;
 
     return (
       <span>
-        {React.Children.map(this.props.children, child => {
+        {React.Children.map(children, child => {
           if (child.type === 'input' ||
               child.type === 'textarea') {
             return React.cloneElement(child, {
