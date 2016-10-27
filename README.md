@@ -1,7 +1,11 @@
 # validate-field-react
 A validation library for React form components.
 
-It will validate 
+It will validate against the following:
+- isNumeric (Boolean)
+- isRequired (Boolean)
+- minLength (Integer)
+- maxLength (Integer)
 
 `npm install validate-field-react`
 

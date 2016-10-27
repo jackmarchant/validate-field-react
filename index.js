@@ -22,7 +22,10 @@ const defaultProps = {
   isNumeric: false
 };
 
-class ValidateField extends Component {
+/**
+ * Component
+ */
+class ValidateInput extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -37,55 +40,47 @@ class ValidateField extends Component {
   }
 
   validate(e) {
-    const {
-      isRequired,
-      isNumeric,
-      minLength,
-      maxLength,
-      message
-    } = this.props;
-
-    if (isRequired) {
+    if (this.props.isRequired) {
       if (e.target.value.length === 0) {
         return this.setState({
           dirty: true,
-          errorMessage: message.isRequired
+          errorMessage: this.props.message.isRequired
         });
       }
     }
 
-    if (isNumeric) {
+    if (this.props.isNumeric) {
       if (isNaN(e.target.value)) {
         return this.setState({
           dirty: true,
-          errorMessage: message.isNumeric
+          errorMessage: this.props.message.isNumeric
         });
       }
     }
 
-    if (isNumeric === false) {
+    if (this.props.isNumeric === false) {
       if (!isNaN(e.target.value)) {
         return this.setState({
           dirty: true,
-          errorMessage: message.isNumeric
+          errorMessage: this.props.message.isNumeric
         });
       }
     }
 
-    if (minLength) {
-      if (e.target.value.length < minLength) {
+    if (this.props.minLength) {
+      if (e.target.value.length < this.props.minLength) {
         return this.setState({
           dirty: true,
-          errorMessage: message.minLength
+          errorMessage: this.props.message.minLength
         });
       }
     }
 
-    if (maxLength) {
-      if (e.target.value.length > maxLength) {
+    if (this.props.maxLength) {
+      if (e.target.value.length > this.props.maxLength) {
         return this.setState({
           dirty: true,
-          errorMessage: message.maxLength
+          errorMessage: this.props.message.maxLength
         });
       }
     }
@@ -103,11 +98,10 @@ class ValidateField extends Component {
    */
   render() {
     const {errorMessage, dirty} = this.state;
-    const {children} = this.props;
 
     return (
       <span>
-        {React.Children.map(children, child => {
+        {React.Children.map(this.props.children, child => {
           if (child.type === 'input' ||
               child.type === 'textarea') {
             return React.cloneElement(child, {
@@ -129,8 +123,8 @@ class ValidateField extends Component {
   }
 }
 
-export default ValidateField;
+export default ValidateInput;
 
-ValidateField.propTypes = propTypes;
+ValidateInput.propTypes = propTypes;
 
-ValidateField.defaultProps = defaultProps;
+ValidateInput.defaultProps = defaultProps;
