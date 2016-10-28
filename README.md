@@ -7,6 +7,7 @@ It will validate against the following:
 - isRequired (Boolean)
 - minLength (Integer)
 - maxLength (Integer)
+- isEmail (Boolean)
 
 `npm install validate-field-react`
 
