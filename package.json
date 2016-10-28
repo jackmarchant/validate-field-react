@@ -1,6 +1,6 @@
 {
-  "name": "validate-field-react",
-  "version": "0.0.6",
+  "name": "validate-react-form",
+  "version": "0.0.7",
   "description": "A validation component library built for React",
   "repository": "https://github.com/jackmarchant/validate-field-react",
   "license": "MIT",
@@ -23,7 +23,7 @@
     "babel-preset-react": "^6.16.0"
   },
   "scripts": {
-    "build": "node_modules/.bin/babel index.js --out-dir distribution",
+    "build": "node_modules/.bin/babel src --out-dir distribution",
     "prepublish": "npm run build"
   }
 }

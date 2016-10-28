@@ -33,6 +33,13 @@ const extractValidaitonRules = props => {
     {
       name: 'maxLength',
       func: (v, l) => (v.length > l) ? l : false
+    },
+    {
+      name: 'isEmail',
+      func: (v) => {
+        const emailRegex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return !emailRegex.test(v);
+      }
     }
   ];
 
@@ -56,7 +63,9 @@ const propTypes = {
   isNotNumeric: PropTypes.bool,
   minLength: PropTypes.number,
   maxLength: PropTypes.number,
-  component: PropTypes.element
+  component: PropTypes.element,
+  onChange: PropTypes.func,
+  name: PropTypes.string.isRequired
 };
 
 /**
@@ -105,18 +114,10 @@ class ValidateField extends Component {
    * @return  {void}
    */
   validate(e) {
-    const {message} = this.props;
-    const {value} = e.target;
-    const rules = extractValidaitonRules(this.props);
-    const validationErrors =
-      // check that the resulting value is equal to value provided in props
-      rules.filter(rule => rule.func(value, rule.value) === rule.value)
-      // filter out any rules that don't have a message
-      .filter(rule => message[rule.name])
-      .map(rule => message[rule.name]);
+    const validationErrors = ValidateField.getValidationErrors(this.props, e.target.value);
 
     // when there is at least one validation error, render the first one
-    if (validationErrors.length > 0) {
+    if (ValidateField.hasError(validationErrors)) {
       return this.setState({
         dirty: true,
         errorMessage: validationErrors[0]
@@ -124,7 +125,7 @@ class ValidateField extends Component {
     }
 
     // revert back to initial state
-    return this.setState({
+    this.setState({
       errorMessage: false,
       dirty: false
     });
@@ -144,11 +145,11 @@ class ValidateField extends Component {
           child.type === 'textarea') {
         return React.cloneElement(child, {
           onChange: (state.dirty) ? e => {
-            if (typeof child.props.onChange === 'function') {
-              child.props.onChange(e);
+            if (this.props.onChange) {
+              this.props.onChange(e.target.value, this.props.name);
             }
             return this.validate(e);
-          } : child.props.onChange,
+          } : e => this.props.onChange(e.target.value, this.props.name),
           onBlur: this.validate
         });
       }
@@ -175,3 +176,16 @@ export default ValidateField;
 ValidateField.propTypes = propTypes;
 
 ValidateField.defaultProps = defaultProps;
+
+ValidateField.getValidationErrors = (props, value) => {
+  const rules = extractValidaitonRules(props);
+  // check that the resulting value is equal to value provided in props
+  return rules.filter(rule => rule.func(value, rule.value) === rule.value)
+    // filter out any rules that don't have a message
+    .filter(rule => props.message[rule.name])
+    .map(rule => props.message[rule.name]);
+}
+
+ValidateField.hasError = (errors) => {
+  return errors.length > 0;
+}
