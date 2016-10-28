@@ -1,6 +1,6 @@
 {
-  "name": "validate-react-form",
-  "version": "0.0.7",
+  "name": "validate-field-react",
+  "version": "0.0.8",
   "description": "A validation component library built for React",
   "repository": "https://github.com/jackmarchant/validate-field-react",
   "license": "MIT",
